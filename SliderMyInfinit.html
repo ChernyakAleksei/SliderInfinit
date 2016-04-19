@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body {
+			width: 600px;
+			margin: 100px auto;
+		}
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		div.slider{
+			width: inherit;
+			overflow: hidden;
+			position:relative;
+			height:300px;
+			width:600px;
+
+		}
+		div.slider ul{
+			list-style: none;
+			width: 2000px;
+			position:absolute;
+			left:-600px;
+
+		}
+		div.slider ul li{
+			float:left;
+		}
+		div#slider-nav{
+			margin: 30px auto;
+			width: 200px;
+		}
+		div#slider-nav button {
+			padding: 10px;
+			margin-right: 10px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		</style>
+</head>
+<body>
+	<div class="slider">
+		<ul>
+			<li>
+				<img src="img/img4.gif"></li>
+			<li>
+				<img src="img/img1.gif"></li>
+			<li>
+				<img src="img/img2.gif"></li>
+			<li>
+				<img src="img/img3.gif"></li>
+		</ul>
+	</div>
+	<div id="slider-nav">
+		<button data-dir="next">Next</button>
+		<button data-dir="prev">Previous</button>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+			(function($){
+				var sliderUl = $('div.slider').children('ul'),
+				imgs = sliderUl.find('img'),
+				imgWidth  = imgs[0].width;
+
+				$('div#slider-nav').find('button').on('click', function(){
+					var direction = $(this).data('dir'),
+					loc = imgWidth ;
+
+					var unit = (direction=='next')?'-':'+';
+
+					if(direction == 'next'){
+						sliderUl.finish().animate({
+							'margin-left': unit+loc
+						},function(){
+							$(this).find('li:last').after($(this).find('li:first'));
+							$(this).finish().css({'margin-left': 0 });
+						});
+					}else{
+						sliderUl.animate({
+							'margin-left': unit+loc
+						},function(){
+							sliderUl.find('li:first').before($(this).find('li:last'));
+							$(this).finish().css({'margin-left': 0 });
+						});
+					}
+				});
+			})(jQuery);
+		</script>
+</body>
+</html>
